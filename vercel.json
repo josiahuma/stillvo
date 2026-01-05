@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/digest/send?token=EXrxRlUKXBIsC0dkp6oKZO6qBlD21FLz",
+      "schedule": "0 19 * * *"
+    }
+  ]
+}
