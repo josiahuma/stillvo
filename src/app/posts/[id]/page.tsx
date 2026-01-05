@@ -1,3 +1,4 @@
+// stillvo/src/app/posts/%5Bid%5D/page.tsx
 import Link from "next/link";
 import AppNav from "@/components/AppNav";
 import AckButtons from "@/components/AckButtons";
@@ -73,39 +74,54 @@ export default async function PostDetailPage({
           </Link>
         </header>
 
-        <article className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              {p.topic && (
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  {p.topic}
+        <article className="mt-6 rounded-2xl border border-zinc-200 bg-white overflow-hidden">
+            {/* HEADER + TEXT */}
+            <div className="p-5">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  {p.topic && (
+                    <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                      {p.topic}
+                    </div>
+                  )}
                 </div>
-              )}
+
+                <CopyLinkButton />
+              </div>
+
+              {/* Full text */}
+              <PostBody text={p.body} truncate={false} />
             </div>
 
-            <CopyLinkButton />
-          </div>
+            {/* MEDIA – FULL WIDTH */}
+            {p.media_url && p.media_type === "image" && (
+              <img
+                src={p.media_url}
+                alt="Post media"
+                className="w-full h-auto"
+              />
+            )}
 
-          {/* Full text here */}
-          <PostBody text={p.body} truncate={false} />
+            {p.media_url && p.media_type === "video" && (
+              <video
+                src={p.media_url}
+                controls
+                playsInline
+                preload="metadata"
+                className="w-full"
+              />
+            )}
 
-          {p.media_url && p.media_type === "image" && (
-            <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.media_url} alt="Post media" className="h-auto w-full" />
+            {/* FOOTER */}
+            <div className="p-5 pt-4">
+              <div className="text-xs text-zinc-500">
+                {formatWhen(p.created_at)}
+              </div>
+
+              <AckButtons postId={p.id} />
             </div>
-          )}
+          </article>
 
-          {p.media_url && p.media_type === "video" && (
-            <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-              <video src={p.media_url} controls playsInline preload="metadata" className="w-full" />
-            </div>
-          )}
-
-          <div className="mt-4 text-xs text-zinc-500">{formatWhen(p.created_at)}</div>
-
-          <AckButtons postId={p.id} />
-        </article>
       </div>
     </main>
   );

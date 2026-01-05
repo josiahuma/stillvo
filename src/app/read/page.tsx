@@ -131,80 +131,77 @@ export default async function ReadPage({
 
                     return (
                       <article
-                        key={p.id}
-                        className="rounded-2xl border border-zinc-200 bg-white p-5"
-                      >
-                        {/* Top row: topic + you badge + menu */}
-                        <div className="flex items-start justify-between gap-3">
-                          <div className="min-w-0 flex-1">
-                            <div className="flex flex-wrap items-center gap-2">
-                              {p.topic && (
-                                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                                  {p.topic}
+                          key={p.id}
+                          className="rounded-2xl border border-zinc-200 bg-white overflow-hidden"
+                        >
+                          {/* TEXT AREA */}
+                          <div className="p-5">
+                            {/* Top row */}
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0 flex-1">
+                                <div className="flex flex-wrap items-center gap-2">
+                                  {p.topic && (
+                                    <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+                                      {p.topic}
+                                    </div>
+                                  )}
+
+                                  {isMine && (
+                                    <span className="inline-flex items-center rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-700">
+                                      You
+                                    </span>
+                                  )}
+
+                                  {isEdited(p) && (
+                                    <span className="inline-flex items-center rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500">
+                                      Edited
+                                    </span>
+                                  )}
                                 </div>
-                              )}
+                              </div>
 
-                              {isMine && (
-                                <span className="inline-flex items-center rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-700">
-                                  You
-                                </span>
-                              )}
-
-                              {isEdited(p) && (
-                                <span className="inline-flex items-center rounded-full border border-zinc-200 px-2 py-0.5 text-[11px] text-zinc-500">
-                                  Edited
-                                </span>
-                              )}
+                              {isMine && <PostMenu postId={p.id} />}
                             </div>
-                          </div>
 
-                          {isMine && <PostMenu postId={p.id} />}
-                        </div>
-
-                        <Link href={`/posts/${p.id}`} className="block">
-                          <PostBody text={p.body} truncate={true} limit={320} />
-                        </Link>
-
-
-
-                        {isImage(p) && (
-                          <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <Link href={`/posts/${p.id}`} className="block">
-                            <img
-                              src={p.media_url!}
-                              alt="Post media"
-                              className="h-auto w-full"
-                              loading="lazy"
-                            />
+                            <Link href={`/posts/${p.id}`} className="block mt-2">
+                              <PostBody text={p.body} truncate={true} limit={320} />
                             </Link>
                           </div>
-                        )}
 
-                        {isVideo(p) && (
-                          <div className="mt-4 overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
+                          {/* MEDIA – FULL WIDTH */}
+                          {isImage(p) && (
                             <Link href={`/posts/${p.id}`} className="block">
-                            <video
-                              src={p.media_url!}
-                              controls
-                              playsInline
-                              preload="metadata"
-                              className="w-full"
-                              autoPlay={false}
-                              muted={false}
-                              loop={false}
-                            />
+                              <img
+                                src={p.media_url!}
+                                alt="Post media"
+                                className="w-full h-auto"
+                                loading="lazy"
+                              />
                             </Link>
+                          )}
+
+                          {isVideo(p) && (
+                            <Link href={`/posts/${p.id}`} className="block">
+                              <video
+                                src={p.media_url!}
+                                controls
+                                playsInline
+                                preload="metadata"
+                                className="w-full"
+                              />
+                            </Link>
+                          )}
+
+                          {/* FOOTER */}
+                          <div className="p-5 pt-4">
+                            <div className="text-xs text-zinc-500">
+                              {formatWhen(p.created_at)}
+                            </div>
+
+                            {!isMine && <AckButtons postId={p.id} />}
                           </div>
-                        )}
+                        </article>
 
-                        <div className="mt-4 text-xs text-zinc-500">
-                          {formatWhen(p.created_at)}
-                        </div>
-
-                        {/* Ownership polish: no acknowledgements on your own post */}
-                        {!isMine && <AckButtons postId={p.id} />}
-                      </article>
                     );
                   })}
                 </div>
