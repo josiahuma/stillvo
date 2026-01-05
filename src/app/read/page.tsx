@@ -170,27 +170,34 @@ export default async function ReadPage({
 
                           {/* MEDIA – FULL WIDTH */}
                           {isImage(p) && (
-                            <Link href={`/posts/${p.id}`} className="block">
-                              <img
-                                src={p.media_url!}
-                                alt="Post media"
-                                className="w-full h-auto"
-                                loading="lazy"
-                              />
-                            </Link>
+                            <div className="mt-4 -mx-5 sm:mx-0 overflow-hidden sm:border sm:border-zinc-200 bg-zinc-50">
+                              <Link href={`/posts/${p.id}`} className="block">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img
+                                  src={p.media_url!}
+                                  alt="Post media"
+                                  className="h-auto w-full object-cover"
+                                  loading="lazy"
+                                />
+                              </Link>
+                            </div>
                           )}
 
+
                           {isVideo(p) && (
-                            <Link href={`/posts/${p.id}`} className="block">
-                              <video
-                                src={p.media_url!}
-                                controls
-                                playsInline
-                                preload="metadata"
-                                className="w-full"
-                              />
-                            </Link>
+                            <div className="mt-4 -mx-5 sm:mx-0 overflow-hidden sm:border sm:border-zinc-200 bg-zinc-50">
+                              <Link href={`/posts/${p.id}`} className="block">
+                                <video
+                                  src={p.media_url!}
+                                  controls
+                                  playsInline
+                                  preload="metadata"
+                                  className="w-full"
+                                />
+                              </Link>
+                            </div>
                           )}
+
 
                           {/* FOOTER */}
                           <div className="p-5 pt-4">
